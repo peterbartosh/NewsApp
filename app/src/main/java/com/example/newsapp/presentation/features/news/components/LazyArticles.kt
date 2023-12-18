@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -35,9 +34,7 @@ fun LazyNews(articles: LazyPagingItems<Article>, onNewsCardClick: (Article) -> U
         modifier = Modifier
             .shadow(
                 elevation = 5.dp,
-                shape = RoundedCornerShape(20.dp),
-                ambientColor = Color.Green,
-                spotColor = Color.Red
+                shape = RoundedCornerShape(20.dp)
             ),
         state = scrollState
     ) {
