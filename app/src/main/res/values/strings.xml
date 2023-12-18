@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">NewsApp</string>
+    <string name="app_top_title">News App</string>
+
+    <string name="pretty_guy">\u2620\ufe0f</string>
+
+    <string name="bad_req_error">Bad request.</string>
+    <string name="auth_error">Authorization Error.\nYour API key was missing from the request, or was not correct.</string>
+    <string name="connection_lost_error">Connection lost.\nTry to reconnect to the Internet.</string>
+    <string name="too_many_req_error">Too many requests.\nBack off for a while.</string>
+    <string name="too_many_results_error">Too many results.\nYou are limited to a max of 100 results.</string>
+    <string name="server_error">Server Error.\nSomething went wrong on our side.</string>
+    <string name="unknown_error">Unknown Error.</string>
+
+
+</resources>
