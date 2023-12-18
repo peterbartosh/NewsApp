@@ -1,11 +1,11 @@
 # NewsApp
 
 # Stack: 
-- UI: Jetpack Compose;  
+- UI: Jetpack Compose;
+- DI: Hilt;
 - pagination: Paging 3;
 - image loading and caching: Coil;
 - networking and caching: Retrofit, OkHttp;
-- DI: Hilt;
 - async: Coroutines;
 
 
