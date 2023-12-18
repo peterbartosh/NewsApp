@@ -3,10 +3,10 @@
 # Stack: 
 - UI: Jetpack Compose;
 - DI: Hilt;
-- pagination: Paging 3;
-- image loading and caching: Coil;
-- networking and caching: Retrofit, OkHttp;
-- async: Coroutines;
+- Pagination: Paging 3;
+- Image loading and caching: Coil;
+- Networking and caching: Retrofit, OkHttp;
+- Async: Coroutines;
 
 
 # Screens:
