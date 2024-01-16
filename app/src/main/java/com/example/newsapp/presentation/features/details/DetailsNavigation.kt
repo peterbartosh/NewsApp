@@ -1,7 +1,5 @@
 package com.example.newsapp.presentation.features.details
 
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -21,16 +19,11 @@ fun NavGraphBuilder.detailsScreen(){
     composable(
         route = detailsRoute
     ){
-        val detailsViewModel = hiltViewModel<DetailsViewModel>()
 
-        val uiState = detailsViewModel.uiState.collectAsState()
+        val detailsViewModel = hiltViewModel<DetailsViewModel>()
 
         val article = it.savedStateHandle.get<Article>(DETAILS_SAVED_STATE_HANDLE_KEY)
 
-        LaunchedEffect(key1 = true){
-            detailsViewModel.loadImage(article)
-        }
-
-        DetailsScreen(uiState)
+        DetailsScreen(detailsViewModel = detailsViewModel, article = article)
     }
 }

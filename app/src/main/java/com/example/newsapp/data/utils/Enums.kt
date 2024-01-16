@@ -5,5 +5,5 @@ enum class ErrorType {
 }
 
 enum class QueryTopic {
-    Politics, Business, Technology, Science, IT, Health;
+    Politics, Business, Technology, Science, IT, Health, Fashion, Art;
 }

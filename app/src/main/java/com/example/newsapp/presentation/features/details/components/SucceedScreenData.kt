@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.newsapp.data.utils.browse
 import com.example.newsapp.data.utils.formatDateString
+import com.example.newsapp.data.utils.isTablet
 import com.example.newsapp.domain.Article
 
 
@@ -48,10 +49,11 @@ fun SucceedScreenData(article: Article) {
             .padding(horizontal = 20.dp),
         text = article.title,
         textAlign = TextAlign.Center,
-        fontSize = 22.sp,
+        fontSize = if (isTablet()) 30.sp else 22.sp,
         fontFamily = FontFamily.Serif,
         fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.primary,
+        lineHeight = 38.sp,
     )
 
     Divider(Modifier.padding(vertical = 5.dp))
@@ -62,7 +64,7 @@ fun SucceedScreenData(article: Article) {
             .wrapContentHeight(),
         text = article.author + " (" + formatDateString(article.publishedAt) + ")",
         textAlign = TextAlign.Center,
-        fontSize = 11.sp,
+        fontSize = if (isTablet()) 18.sp else 11.sp,
         fontFamily = FontFamily.SansSerif,
         color = MaterialTheme.colorScheme.onBackground
     )
@@ -89,11 +91,21 @@ fun SucceedScreenData(article: Article) {
 
 @Composable
 private fun getBrowseAnnotatedString(description: String, url: String) = buildAnnotatedString {
-    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onBackground, fontSize = 14.sp)) {
+    withStyle(
+        style = SpanStyle(
+            color = MaterialTheme.colorScheme.onBackground,
+            fontSize = if (isTablet()) 24.sp else 14.sp
+        )
+    ) {
         append(description)
     }
     pushStringAnnotation(tag = "web link", annotation = url)
-    withStyle(style = SpanStyle(color = Color.Blue)) {
+    withStyle(
+        style = SpanStyle(
+            color = Color.Blue,
+            fontSize = if (isTablet()) 17.sp else 13.sp
+        )
+    ) {
         append(" (browse)")
     }
     pop()

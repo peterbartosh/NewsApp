@@ -2,32 +2,34 @@ package com.example.newsapp.presentation.features.news
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.newsapp.domain.Article
-import com.example.newsapp.presentation.features.news.components.LazyQueries
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.newsapp.data.utils.ErrorType
+import com.example.newsapp.domain.Article
 import com.example.newsapp.presentation.components.ErrorOccurred
 import com.example.newsapp.presentation.features.news.components.LazyNews
+import com.example.newsapp.presentation.features.news.components.LazyQueries
 
 
 @Composable
 fun NewsScreen(
-    onNewsCardClick: (Article) -> Unit,
+    fraction: Float = 1.0f,
+    onNewsCardClick: (Article, Int) -> Unit,
     newsViewModel: NewsViewModel = hiltViewModel()
 ) {
 
     val articles = newsViewModel.dataFLow.collectAsLazyPagingItems()
 
     Column(
-        Modifier.fillMaxSize(),
+        Modifier.fillMaxHeight().fillMaxWidth(fraction),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 

@@ -10,48 +10,38 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.newsapp.data.utils.Constants
 import com.example.newsapp.data.utils.Constants.TOP_BAR_HEIGHT
-import com.example.newsapp.data.utils.showToast
+import com.example.newsapp.data.utils.isTablet
 import com.example.newsapp.presentation.features.details.detailsRoute
 import com.example.newsapp.presentation.features.details.detailsScreen
 import com.example.newsapp.presentation.features.details.navigateToDetails
 import com.example.newsapp.presentation.features.news.newsRoute
 import com.example.newsapp.presentation.features.news.newsScreen
+import com.example.newsapp.presentation.features.tablet.TabletScreen
 import com.example.newsapp.R as Res
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -121,10 +111,13 @@ fun App() {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            NavHost(navController = navController, startDestination = newsRoute){
-                newsScreen(navController::navigateToDetails)
-                detailsScreen()
-            }
+            if (isTablet())
+                TabletScreen()
+            else
+                NavHost(navController = navController, startDestination = newsRoute){
+                    newsScreen(navController::navigateToDetails)
+                    detailsScreen()
+                }
         }
     }
 }

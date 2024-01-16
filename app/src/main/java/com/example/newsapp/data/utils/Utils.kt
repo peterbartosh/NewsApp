@@ -6,12 +6,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
-import android.os.Message
 import android.widget.Toast
-import androidx.compose.ui.res.painterResource
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.core.content.ContextCompat.startActivity
 import com.example.newsapp.R as Res
-import java.text.SimpleDateFormat
 
 
 fun Context.showToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
@@ -71,3 +70,8 @@ fun Context.explainErrorResponse(code: Int) =
         500 -> this.getString(Res.string.server_error)
         else -> this.getString(Res.string.unknown_error)
     }
+
+@Composable
+fun isTablet(): Boolean {
+    return LocalConfiguration.current.screenWidthDp >= 600
+}
