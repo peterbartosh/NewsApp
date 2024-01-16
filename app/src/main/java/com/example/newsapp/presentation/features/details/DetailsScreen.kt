@@ -17,6 +17,7 @@ fun DetailsScreen(
     uiState: State<UiState<Article>>,
 ) {
 
+
     LazyColumn(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         item {
             when (uiState.value) {

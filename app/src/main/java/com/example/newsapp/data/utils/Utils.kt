@@ -6,12 +6,9 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
-import android.os.Message
 import android.widget.Toast
-import androidx.compose.ui.res.painterResource
 import androidx.core.content.ContextCompat.startActivity
 import com.example.newsapp.R as Res
-import java.text.SimpleDateFormat
 
 
 fun Context.showToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
@@ -65,7 +62,8 @@ fun Context.explainErrorResponse(code: Int) =
     when (code){
         400 -> this.getString(Res.string.bad_req_error)
         401 -> this.getString(Res.string.auth_error)
-        403 -> this.getString(Res.string.connection_lost_error)
+        403 -> null
+            //this.getString(Res.string.connection_lost_error)
         426 -> this.getString(Res.string.too_many_results_error)
         429 -> this.getString(Res.string.too_many_req_error)
         500 -> this.getString(Res.string.server_error)

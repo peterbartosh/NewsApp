@@ -16,7 +16,7 @@ import javax.inject.Inject
 class CachingInterceptor @Inject constructor(
     @ApplicationContext private val context: Context,
     private val errorCallbacks: ErrorCallbacks
-): Interceptor{
+): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
 
         val originalRequest = chain.request()

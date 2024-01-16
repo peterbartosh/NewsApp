@@ -1,6 +1,5 @@
 package com.example.newsapp.data.remote
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.newsapp.data.repository.NetworkRepository
@@ -17,7 +16,6 @@ data class SearchKey(
     fun next() = this.copy(page = this.page + 1)
     fun prev() = this.copy(page = this.page - 1)
 }
-
 
 class NewsPagingSource(
     private val initQueryTopic: QueryTopic,
@@ -37,10 +35,8 @@ class NewsPagingSource(
             val searchKey = params.key ?: SearchKey(1, initQueryTopic)
 
             val result = networkRepository.getLatestNews(page = searchKey.page, query = searchKey.query.name.lowercase())
-            val temp = (result.getOrNull()?.articles ?: emptyList())
+            val temp = result.getOrNull()?.articles ?: emptyList()
             val articles = temp.mapNotNull { it.toNewsArticle() }
-
-            Log.d("LOAD_TAG", "loaded page =  " + searchKey.page.toString())
 
             LoadResult.Page(
                 data = articles,

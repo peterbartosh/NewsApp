@@ -26,11 +26,16 @@ class NewsViewModel @Inject constructor(private val networkRepository: NetworkRe
 
     var dataFLow: Flow<PagingData<Article>> = emptyFlow()
 
+    var lastQuery = QueryTopic.entries[0]
+
     init {
-        fetchData(QueryTopic.entries[0])
+        fetchData()
     }
 
-    fun fetchData(queryTopic: QueryTopic) = viewModelScope.launch {
+    fun fetchData(queryTopic: QueryTopic = lastQuery) = viewModelScope.launch {
+
+        lastQuery = queryTopic
+
         dataFLow = Pager(
             config = PagingConfig(
                 pageSize = NEWS_ARTICLES_PER_PAGE,

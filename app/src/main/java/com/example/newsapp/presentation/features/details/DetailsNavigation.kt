@@ -18,9 +18,9 @@ fun NavController.navigateToDetails(article: Article, navOptions: NavOptions? = 
 }
 
 fun NavGraphBuilder.detailsScreen(){
-    composable(
-        route = detailsRoute
-    ){
+
+    composable(route = detailsRoute){
+
         val detailsViewModel = hiltViewModel<DetailsViewModel>()
 
         val uiState = detailsViewModel.uiState.collectAsState()
