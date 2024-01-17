@@ -42,7 +42,6 @@ const val leftFraction = 0.3f
 const val rightFraction = 0.6f
 
 @Composable
-
 fun TabletScreen(
     newsViewModel: NewsViewModel = hiltViewModel(),
     detailsViewModel: DetailsViewModel = hiltViewModel()

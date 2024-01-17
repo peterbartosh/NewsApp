@@ -1,5 +1,6 @@
 package com.example.newsapp.presentation.features.news.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -91,6 +92,7 @@ inline fun ArticleCard(
                     val imgId =
                         if (isSystemInDarkTheme()) R.drawable.placeholder_dark else R.drawable.placeholder_light
 
+                if (!isError)
                     AsyncImage(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -102,12 +104,25 @@ inline fun ArticleCard(
                         placeholder = painterResource(id = imgId),
                         onError = {
                             isError = true
+                            isReady = true
                         },
                         onSuccess = {
                             isReady = true
                         },
                         contentScale = ContentScale.FillWidth,
                         contentDescription = null
+                    )
+                else
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            //.heightIn(min = 100.dp, max = 700.dp)
+                            .clip(RoundedCornerShape(20.dp))
+                            .align(Alignment.Center),
+                        painter = painterResource(id = R.drawable.error_image),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillWidth
                     )
 
                 Box(
