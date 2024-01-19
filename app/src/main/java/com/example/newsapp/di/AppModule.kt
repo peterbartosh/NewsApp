@@ -1,12 +1,15 @@
 package com.example.newsapp.di
 
 import android.content.Context
-import com.example.newsapp.data.remote.interceptors.AuthorizationInterceptor
-import com.example.newsapp.domain.ErrorCallbacks
-import com.example.newsapp.data.remote.interceptors.CachingInterceptor
+import androidx.room.Room
+import com.example.newsapp.data.local.LocalDao
+import com.example.newsapp.data.local.LocalDatabase
 import com.example.newsapp.data.remote.NewsApi
+import com.example.newsapp.data.remote.interceptors.AuthorizationInterceptor
+import com.example.newsapp.data.repository.LocalRepository
 import com.example.newsapp.data.utils.Constants.CACHE_MAX_SIZE
 import com.example.newsapp.data.utils.Constants.NEWS_API_BASE_URL
+import com.example.newsapp.domain.ErrorCallbacks
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,21 +33,12 @@ object AppModule {
     fun provideAuthorizationInterceptor() = AuthorizationInterceptor()
 
     @Provides @Singleton
-    fun provideForceCachingInterceptor(
-        @ApplicationContext context: Context,
-        errorCallbacks: ErrorCallbacks
-    ) = CachingInterceptor(context, errorCallbacks)
-
-    @Provides @Singleton
     fun provideHttpClient(
         @ApplicationContext context: Context,
         authorizationInterceptor: AuthorizationInterceptor,
-        cachingInterceptor: CachingInterceptor
     ) = OkHttpClient.Builder()
             .cache(Cache(context.cacheDir, CACHE_MAX_SIZE))
             .addInterceptor(authorizationInterceptor)
-            .addInterceptor(cachingInterceptor)
-            .addNetworkInterceptor(cachingInterceptor)
             .build()
 
     @Provides @Singleton
@@ -57,5 +51,19 @@ object AppModule {
 
     @Provides @Singleton
     fun provideApi(retrofit: Retrofit) = retrofit.create(NewsApi::class.java)
+
+    @Provides @Singleton
+    fun provideDatabase(@ApplicationContext context: Context) =
+        Room
+            .databaseBuilder(context, LocalDatabase::class.java, "caching_database")
+            .fallbackToDestructiveMigration()
+            .build()
+
+    @Provides @Singleton
+    fun provideLocalDao(localDatabase: LocalDatabase) = localDatabase.provideDao()
+
+    @Provides @Singleton
+    fun provideLocalRepository(localDao: LocalDao) = LocalRepository(localDao)
+
 
 }

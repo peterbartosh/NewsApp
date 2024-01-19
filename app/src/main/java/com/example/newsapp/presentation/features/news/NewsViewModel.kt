@@ -7,6 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.newsapp.data.remote.NewsPagingSource
+import com.example.newsapp.data.repository.LocalRepository
 import com.example.newsapp.data.repository.NetworkRepository
 import com.example.newsapp.data.utils.Constants.NEWS_ARTICLES_MAX_SIZE
 import com.example.newsapp.data.utils.Constants.NEWS_ARTICLES_PER_PAGE
@@ -22,7 +23,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NewsViewModel @Inject constructor(private val networkRepository: NetworkRepository): ViewModel() {
+class NewsViewModel @Inject constructor(
+    private val networkRepository: NetworkRepository,
+    private val localRepository: LocalRepository
+): ViewModel() {
 
     var dataFLow: Flow<PagingData<Article>> = emptyFlow()
 
@@ -42,7 +46,7 @@ class NewsViewModel @Inject constructor(private val networkRepository: NetworkRe
                 maxSize = NEWS_ARTICLES_MAX_SIZE
             ),
             pagingSourceFactory = {
-                NewsPagingSource(queryTopic, networkRepository)
+                NewsPagingSource(queryTopic, networkRepository, localRepository)
             }
         ).flow.distinctUntilChanged().flowOn(Dispatchers.IO).cachedIn(viewModelScope)
     }
