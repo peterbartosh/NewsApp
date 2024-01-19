@@ -28,7 +28,6 @@ fun ErrorOccurred(
     errorType: ErrorType = ErrorType.EmptyResult,
     onRetryClick: () -> Unit = {}
 ){
-
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

@@ -3,7 +3,8 @@ package com.example.newsapp.presentation.features.news
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,7 +23,8 @@ import com.example.newsapp.presentation.features.news.components.LazyQueries
 
 @Composable
 fun NewsScreen(
-    onNewsCardClick: (Article) -> Unit,
+    fraction: Float = 1.0f,
+    onNewsCardClick: (Article, Int) -> Unit,
     newsViewModel: NewsViewModel = hiltViewModel()
 ) {
 
@@ -36,7 +38,7 @@ fun NewsScreen(
     }
 
     Column(
-        Modifier.fillMaxSize(),
+        Modifier.fillMaxHeight().fillMaxWidth(fraction),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 

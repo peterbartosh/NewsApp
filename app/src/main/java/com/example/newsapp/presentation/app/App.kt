@@ -48,11 +48,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.newsapp.data.network.ConnectivityObserver
 import com.example.newsapp.data.network.ConnectivityObserverImpl
 import com.example.newsapp.data.utils.Constants.TOP_BAR_HEIGHT
+import com.example.newsapp.data.utils.Constants.TOP_BAR_HEIGHT
+import com.example.newsapp.data.utils.isTablet
 import com.example.newsapp.presentation.features.details.detailsRoute
 import com.example.newsapp.presentation.features.details.detailsScreen
 import com.example.newsapp.presentation.features.details.navigateToDetails
 import com.example.newsapp.presentation.features.news.newsRoute
 import com.example.newsapp.presentation.features.news.newsScreen
+import com.example.newsapp.presentation.features.tablet.TabletScreen
 import com.example.newsapp.R as Res
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -202,7 +205,13 @@ fun ConnectivityIndicator(connectivityState: ConnectivityObserver.Status) {
                 text = if (networkAvailable) "Connected." else "Connection lost. Reconnecting..."
             )
 
-
+            if (isTablet())
+                TabletScreen()
+            else
+                NavHost(navController = navController, startDestination = newsRoute){
+                    newsScreen(navController::navigateToDetails)
+                    detailsScreen()
+                }
         }
     }
 

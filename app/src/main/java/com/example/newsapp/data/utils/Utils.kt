@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.core.content.ContextCompat.startActivity
 import com.example.newsapp.R as Res
 
@@ -28,9 +30,14 @@ fun Context.explainErrorResponse(code: Int) =
         400 -> this.getString(Res.string.bad_req_error)
         401 -> this.getString(Res.string.auth_error)
         403 -> null
-            //this.getString(Res.string.connection_lost_error)
+        //this.getString(Res.string.connection_lost_error)
         426 -> this.getString(Res.string.too_many_results_error)
         429 -> this.getString(Res.string.too_many_req_error)
         500 -> this.getString(Res.string.server_error)
         else -> this.getString(Res.string.unknown_error)
     }
+
+@Composable
+fun isTablet(): Boolean {
+    return LocalConfiguration.current.screenWidthDp >= 600
+}
