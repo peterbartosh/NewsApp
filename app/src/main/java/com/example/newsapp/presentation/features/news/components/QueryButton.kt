@@ -1,7 +1,6 @@
 package com.example.newsapp.presentation.features.news.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import retrofit2.http.Query
 
 @Composable
 fun QueryButton(
@@ -34,7 +32,7 @@ fun QueryButton(
         contentPadding = PaddingValues(5.dp),
         shape = RoundedCornerShape(30.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
-        elevation = ButtonDefaults.buttonElevation(10.dp),
+        elevation = ButtonDefaults.buttonElevation(5.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isSelected)
                 MaterialTheme.colorScheme.primary

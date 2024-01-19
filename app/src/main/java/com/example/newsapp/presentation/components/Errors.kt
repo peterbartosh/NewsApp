@@ -1,10 +1,11 @@
 package com.example.newsapp.presentation.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,10 +20,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.newsapp.R
 import com.example.newsapp.data.utils.ErrorType
+import com.example.newsapp.presentation.theme.Gold
 
 @Preview
 @Composable
-fun ErrorOccurred(errorType: ErrorType = ErrorType.EmptyResult) {
+fun ErrorOccurred(
+    errorType: ErrorType = ErrorType.EmptyResult,
+    onRetryClick: () -> Unit = {}
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -40,6 +45,14 @@ fun ErrorOccurred(errorType: ErrorType = ErrorType.EmptyResult) {
             fontSize = 16.sp,
             fontFamily = FontFamily.SansSerif,
             color = MaterialTheme.colorScheme.onBackground
+        )
+
+        Text(
+            modifier = Modifier.padding(top = 5.dp).clickable { onRetryClick() },
+            text = "Retry",
+            fontSize = 15.sp,
+            fontFamily = FontFamily.Default,
+            color = Gold
         )
     }
 }

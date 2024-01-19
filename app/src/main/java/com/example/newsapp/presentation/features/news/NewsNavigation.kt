@@ -14,7 +14,7 @@ fun NavGraphBuilder.newsScreen(navigateToDetails: (Article) -> Unit){
         val newsViewModel = hiltViewModel<NewsViewModel>()
         NewsScreen(
             newsViewModel = newsViewModel,
-            onNewsCardClick = navigateToDetails
+            onNewsCardClick = { article, _ -> navigateToDetails(article) }
         )
     }
 }

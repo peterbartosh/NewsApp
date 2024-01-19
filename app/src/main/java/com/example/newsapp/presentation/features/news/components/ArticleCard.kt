@@ -1,5 +1,6 @@
 package com.example.newsapp.presentation.features.news.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -36,14 +36,17 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.newsapp.R
 import com.example.newsapp.data.utils.formatDateString
+import com.example.newsapp.data.utils.isTablet
 import com.example.newsapp.domain.Article
 import com.example.newsapp.presentation.components.shimmerEffect
+import com.example.newsapp.presentation.theme.Gold
 import com.example.newsapp.presentation.theme.NeutralDark
 
 
 @Composable
 inline fun ArticleCard(
     modifier: Modifier = Modifier,
+    isSelected: Boolean = false,
     isLast: Boolean = false,
     isFirst: Boolean = false,
     article: Article,
@@ -59,21 +62,22 @@ inline fun ArticleCard(
         mutableStateOf(false)
     }
 
-    val shape = if (isFirst)
-        RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
-    else if (isLast)
-        RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
-    else
-        RectangleShape
-
     if (!isError)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 400.dp)
+                .heightIn(min = 250.dp)
                 .padding(horizontal = 5.dp)
-                .clip(shape)
+                .clip(RoundedCornerShape(20.dp))
                 .background(MaterialTheme.colorScheme.background)
+                .then(
+                    if (isSelected) Modifier.border(
+                        width = 3.dp,
+                        color = Gold,
+                        shape = RoundedCornerShape(20.dp)
+                    )
+                    else Modifier
+                )
                 .clickable { if (isReady) onClick() },
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -88,6 +92,7 @@ inline fun ArticleCard(
                     val imgId =
                         if (isSystemInDarkTheme()) R.drawable.placeholder_dark else R.drawable.placeholder_light
 
+                if (!isError)
                     AsyncImage(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -99,12 +104,25 @@ inline fun ArticleCard(
                         placeholder = painterResource(id = imgId),
                         onError = {
                             isError = true
+                            isReady = true
                         },
                         onSuccess = {
                             isReady = true
                         },
                         contentScale = ContentScale.FillWidth,
                         contentDescription = null
+                    )
+                else
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            //.heightIn(min = 100.dp, max = 700.dp)
+                            .clip(RoundedCornerShape(20.dp))
+                            .align(Alignment.Center),
+                        painter = painterResource(id = R.drawable.error_image),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillWidth
                     )
 
                 Box(
@@ -127,27 +145,35 @@ inline fun ArticleCard(
                 ) {
                     Text(
                         modifier = Modifier
-                            .heightIn(min = 80.dp)
+                            //.heightIn(min = if (isTablet()) 50.dp else 80.dp)
                             .widthIn(min = 250.dp)
                             .padding(horizontal = 20.dp)
                             .shimmerEffect(isLoadingData)
                             .align(Alignment.Center),
                         text = if (!isLoadingData) article.title else "",
                         textAlign = TextAlign.Center,
-                        fontSize = 18.sp,
+                        fontSize = if (isTablet()) 12.sp else 18.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Serif,
+                        lineHeight = 16.sp,
                         color = MaterialTheme.colorScheme.primary,
                     )
                 }
 
             }
 
+            val description = if (!isLoadingData) {
+                if (article.description.length > 100)
+                    article.description.substring(0, 100) + "..."
+                else
+                    article.description
+            } else ""
+
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(100.dp)
-                    .padding(start = 20.dp, top = 20.dp, end = 5.dp)
+                    //.heightIn(100.dp)
+                    .padding(start = 20.dp, top = 10.dp, end = 5.dp)
                     .background(
                         if (isLoadingData)
                             MaterialTheme.colorScheme.secondaryContainer
@@ -155,21 +181,24 @@ inline fun ArticleCard(
                             MaterialTheme.colorScheme.background
                     )
                     .shimmerEffect(isLoadingData),
-                text = if (!isLoadingData) article.description else "",
-                fontSize = 14.sp,
+                text = description,
+                fontSize = if (isTablet()) 12.sp else 14.sp,
+                lineHeight = 14.sp,
                 color = MaterialTheme.colorScheme.onBackground
             )
 
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 5.dp), horizontalArrangement = Arrangement.End) {
+                    .padding(top = 5.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
 
                 Text(
                     modifier = Modifier
                         .widthIn(min = 70.dp)
                         .wrapContentHeight()
-                        .padding(end = 5.dp)
+                        .padding(end = 5.dp, bottom = 7.dp)
                         .background(
                             if (isLoadingData)
                                 MaterialTheme.colorScheme.secondaryContainer
