@@ -27,7 +27,7 @@ import com.example.newsapp.presentation.theme.Gold
 fun ErrorOccurred(
     errorType: ErrorType = ErrorType.EmptyResult,
     onRetryClick: () -> Unit = {}
-) {
+){
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

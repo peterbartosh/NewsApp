@@ -8,7 +8,7 @@ import coil.request.CachePolicy
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class MainApplication(): Application(), ImageLoaderFactory {
+class MainApplication: Application(), ImageLoaderFactory {
     override fun newImageLoader() =
         ImageLoader(this).newBuilder()
             .memoryCachePolicy(CachePolicy.ENABLED)
@@ -18,5 +18,6 @@ class MainApplication(): Application(), ImageLoaderFactory {
                     .strongReferencesEnabled(true)
                     .build()
             }
+            .respectCacheHeaders(false)
             .build()
 }

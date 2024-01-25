@@ -14,6 +14,8 @@ import com.example.newsapp.domain.Article
 import com.example.newsapp.presentation.components.ErrorOccurred
 import com.example.newsapp.presentation.components.Loading
 import com.example.newsapp.presentation.features.details.components.SucceedScreenData
+import com.example.newsapp.presentation.features.details.DetailsViewModel
+
 
 @Composable
 fun DetailsScreen(

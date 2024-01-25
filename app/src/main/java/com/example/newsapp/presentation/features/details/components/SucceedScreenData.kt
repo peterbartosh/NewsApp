@@ -1,5 +1,6 @@
 package com.example.newsapp.presentation.features.details.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -9,10 +10,15 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -22,6 +28,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.newsapp.R
 import com.example.newsapp.data.utils.browse
 import com.example.newsapp.data.utils.formatDateString
 import com.example.newsapp.data.utils.isTablet
@@ -33,16 +40,33 @@ fun SucceedScreenData(article: Article) {
 
     val context = LocalContext.current
 
-    AsyncImage(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            //.heightIn(max = 700.dp)
-            .padding(vertical = 5.dp),
-        model = article.urlToImage,
-        contentScale = ContentScale.FillWidth,
-        contentDescription = null
-    )
+    var isError by remember {
+        mutableStateOf(false)
+    }
+
+    if (!isError)
+        AsyncImage(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(vertical = 5.dp),
+            model = article.urlToImage,
+            onError = {
+              isError = true
+            },
+            contentScale = ContentScale.FillWidth,
+            contentDescription = null
+        )
+    else
+        Image(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(vertical = 5.dp),
+            painter = painterResource(id = R.drawable.error_image),
+            contentDescription = null,
+            contentScale = ContentScale.FillWidth
+        )
 
     Text(
         modifier = Modifier
@@ -79,7 +103,7 @@ fun SucceedScreenData(article: Article) {
             .padding(horizontal = 15.dp),
     ) {
         ClickableText(
-            text = getBrowseAnnotatedString(description = article.description, url = article.url),
+            text = annotatedString,
             onClick = { offset ->
                 annotatedString.getStringAnnotations(tag = "web link", start = offset, end = offset).firstOrNull()?.let {
                     context.browse(it.item)

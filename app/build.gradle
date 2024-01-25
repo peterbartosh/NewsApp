@@ -59,6 +59,13 @@ dependencies {
     def coil_version = "2.4.0"
     def ok_http_version = "5.0.0-alpha.2"
     def reflect_version = "1.9.0"
+    def room_version = "2.6.0"
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt("androidx.room:room-compiler:$room_version")
+    implementation "androidx.room:room-ktx:$room_version"
 
     // Reflection
     implementation "org.jetbrains.kotlin:kotlin-reflect:$reflect_version"

@@ -24,7 +24,6 @@ import androidx.paging.compose.itemsIndexed
 import com.example.newsapp.domain.Article
 import com.example.newsapp.presentation.components.Loading
 
-
 @Composable
 fun LazyNews(selectedArticleIndex: Int = -1, articles: LazyPagingItems<Article>, onNewsCardClick: (Article, Int) -> Unit) {
 
@@ -74,12 +73,12 @@ fun LazyNews(selectedArticleIndex: Int = -1, articles: LazyPagingItems<Article>,
 
         if (articles.loadState.append is LoadState.Loading)
             item {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .height(50.dp)) {
-                        Loading()
-                    }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)) {
+                    Loading()
+                }
             }
     }
 }

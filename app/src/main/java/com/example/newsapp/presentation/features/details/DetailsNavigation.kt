@@ -7,6 +7,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.newsapp.data.utils.Constants.DETAILS_SAVED_STATE_HANDLE_KEY
 import com.example.newsapp.domain.Article
+import com.example.newsapp.presentation.features.details.DetailsScreen
+import com.example.newsapp.presentation.features.details.DetailsViewModel
 
 const val detailsRoute = "details"
 
@@ -16,6 +18,7 @@ fun NavController.navigateToDetails(article: Article, navOptions: NavOptions? = 
 }
 
 fun NavGraphBuilder.detailsScreen(){
+
     composable(
         route = detailsRoute
     ){
