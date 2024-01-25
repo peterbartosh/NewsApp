@@ -1,5 +1,6 @@
 package com.example.newsapp.presentation.features.details
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,24 +11,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.newsapp.data.utils.UiState
-import com.example.newsapp.domain.Article
 import com.example.newsapp.presentation.components.ErrorOccurred
 import com.example.newsapp.presentation.components.Loading
 import com.example.newsapp.presentation.features.details.components.SucceedScreenData
-import com.example.newsapp.presentation.features.details.DetailsViewModel
 
 
 @Composable
 fun DetailsScreen(
     fraction: Float = 1.0f,
-    article: Article?,
+    articleUrl: String?,
     detailsViewModel: DetailsViewModel = hiltViewModel(),
 ) {
 
     val uiState = detailsViewModel.uiState.collectAsState()
 
-    LaunchedEffect(key1 = article){
-        detailsViewModel.loadImage(article)
+    LaunchedEffect(key1 = articleUrl){
+        Log.d("DSPJ", "DetailsScreen: ")
+        detailsViewModel.loadImage(articleUrl)
     }
 
     LazyColumn(

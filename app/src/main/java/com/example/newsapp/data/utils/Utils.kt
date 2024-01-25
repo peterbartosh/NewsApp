@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.core.content.ContextCompat.startActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import com.example.newsapp.R as Res
 
 
@@ -29,8 +31,7 @@ fun Context.explainErrorResponse(code: Int) =
     when (code){
         400 -> this.getString(Res.string.bad_req_error)
         401 -> this.getString(Res.string.auth_error)
-        403 -> null
-        //this.getString(Res.string.connection_lost_error)
+        403 -> this.getString(Res.string.connection_lost_error)
         426 -> this.getString(Res.string.too_many_results_error)
         429 -> this.getString(Res.string.too_many_req_error)
         500 -> this.getString(Res.string.server_error)
@@ -40,4 +41,11 @@ fun Context.explainErrorResponse(code: Int) =
 @Composable
 fun isTablet(): Boolean {
     return LocalConfiguration.current.screenWidthDp >= 600
+}
+
+suspend fun Context.errorCallback(code: Int) {
+    withContext(Dispatchers.Main) {
+        val message = this@errorCallback.explainErrorResponse(code)
+        this@errorCallback.showToast(this@errorCallback.getString(Res.string.pretty_guy) + " $message")
+    }
 }

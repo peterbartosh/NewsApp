@@ -12,6 +12,9 @@ interface LocalDao {
     @Query("Select * From cached_articles Where queryTopicIndex = :queryTopicIndex Order By id ASC Limit :limit Offset :offset")
     suspend fun getArticles(queryTopicIndex: Int, limit: Int, offset: Int): List<ArticleEntity>
 
+    @Query("Select * From cached_articles Where url = :articleUrl")
+    suspend fun getArticle(articleUrl: String): ArticleEntity?
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertArticle(articleEntity: ArticleEntity)
 

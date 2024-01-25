@@ -2,7 +2,6 @@ package com.example.newsapp.data.repository
 
 import android.util.Log
 import com.example.newsapp.data.model.dto.ErrorResponse
-import com.example.newsapp.domain.ErrorCallbacks
 import com.example.newsapp.data.remote.NewsApi
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +13,7 @@ import javax.inject.Inject
 
 class NetworkRepository @Inject constructor(
     private val newsApi: NewsApi,
-    private val errorCallbacks: ErrorCallbacks
+    private val gson: Gson
 ) {
 
     suspend fun getLatestNews(query: String, page: Int) = withContext(Dispatchers.IO){
@@ -27,19 +26,22 @@ class NetworkRepository @Inject constructor(
                 Result.success(response.body())
             } else {
                 errorCode = response.code()
-                errorMessage = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java).message
+                errorMessage = gson.fromJson(response.errorBody()?.string(), ErrorResponse::class.java).message
                 Result.failure(HttpException(response))
             }
         } catch (httpE: HttpException){
             errorCode = httpE.code()
             errorMessage = httpE.message()
             Result.failure(httpE)
+        } catch (ioE: IOException) {
+            errorCode = 403
+            errorMessage = "No internet connection"
+            Result.failure(ioE)
         } finally {
             if (errorCode != -1){
-                errorCallbacks.httpErrorCallback(errorCode)
                 Log.d("ERROR_ERROR", "getLatestNews: $errorCode: $errorMessage")
             }
         }
     }
-
 }
+

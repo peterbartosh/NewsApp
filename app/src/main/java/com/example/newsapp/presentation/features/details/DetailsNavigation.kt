@@ -6,27 +6,22 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.newsapp.data.utils.Constants.DETAILS_SAVED_STATE_HANDLE_KEY
-import com.example.newsapp.domain.Article
-import com.example.newsapp.presentation.features.details.DetailsScreen
-import com.example.newsapp.presentation.features.details.DetailsViewModel
 
 const val detailsRoute = "details"
 
-fun NavController.navigateToDetails(article: Article, navOptions: NavOptions? = null){
+fun NavController.navigateToDetails(articleUrl: String, navOptions: NavOptions? = null){
     this.navigate(detailsRoute, navOptions)
-    this.currentBackStackEntry?.savedStateHandle?.set(DETAILS_SAVED_STATE_HANDLE_KEY, article)
+    this.currentBackStackEntry?.savedStateHandle?.set(DETAILS_SAVED_STATE_HANDLE_KEY, articleUrl)
 }
 
 fun NavGraphBuilder.detailsScreen(){
 
-    composable(
-        route = detailsRoute
-    ){
+    composable(route = detailsRoute){
 
         val detailsViewModel = hiltViewModel<DetailsViewModel>()
 
-        val article = it.savedStateHandle.get<Article>(DETAILS_SAVED_STATE_HANDLE_KEY)
+        val articleUrl = it.savedStateHandle.get<String>(DETAILS_SAVED_STATE_HANDLE_KEY)
 
-        DetailsScreen(detailsViewModel = detailsViewModel, article = article)
+        DetailsScreen(detailsViewModel = detailsViewModel, articleUrl = articleUrl)
     }
 }

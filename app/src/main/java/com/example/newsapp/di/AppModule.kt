@@ -9,7 +9,7 @@ import com.example.newsapp.data.remote.interceptors.AuthorizationInterceptor
 import com.example.newsapp.data.repository.LocalRepository
 import com.example.newsapp.data.utils.Constants.CACHE_MAX_SIZE
 import com.example.newsapp.data.utils.Constants.NEWS_API_BASE_URL
-import com.example.newsapp.domain.ErrorCallbacks
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,9 +26,6 @@ import javax.inject.Singleton
 object AppModule {
 
     // remote
-    @Provides @Singleton
-    fun provideCallbacks(@ApplicationContext context: Context) = ErrorCallbacks(context)
-
     @Provides @Singleton
     fun provideAuthorizationInterceptor() = AuthorizationInterceptor()
 
@@ -52,6 +49,8 @@ object AppModule {
     @Provides @Singleton
     fun provideApi(retrofit: Retrofit) = retrofit.create(NewsApi::class.java)
 
+
+    // local
     @Provides @Singleton
     fun provideDatabase(@ApplicationContext context: Context) =
         Room
@@ -65,5 +64,8 @@ object AppModule {
     @Provides @Singleton
     fun provideLocalRepository(localDao: LocalDao) = LocalRepository(localDao)
 
+    // common
+    @Provides @Singleton
+    fun provideGson() = Gson()
 
 }

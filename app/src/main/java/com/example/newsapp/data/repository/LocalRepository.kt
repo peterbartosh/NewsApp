@@ -14,6 +14,10 @@ class LocalRepository @Inject constructor(private val localDao: LocalDao) {
         localDao.getArticles(queryTopic.ordinal, limit = page * NEWS_ARTICLES_PER_PAGE, offset = (page - 1) * NEWS_ARTICLES_PER_PAGE)
     }
 
+    suspend fun getArticle(articleUrl: String) = withContext(Dispatchers.IO){
+        localDao.getArticle(articleUrl)
+    }
+
     suspend fun insertAll(articleEntities: List<ArticleEntity>) = withContext(Dispatchers.IO){
         articleEntities.forEach { articleEntity ->
             localDao.insertArticle(articleEntity)

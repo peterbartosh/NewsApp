@@ -47,8 +47,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.newsapp.data.network.ConnectivityObserver
 import com.example.newsapp.data.network.ConnectivityObserverImpl
-import com.example.newsapp.data.utils.Constants.TOP_BAR_HEIGHT
-import com.example.newsapp.data.utils.Constants.TOP_BAR_HEIGHT
+import com.example.newsapp.data.utils.Constants
 import com.example.newsapp.data.utils.isTablet
 import com.example.newsapp.presentation.features.details.detailsRoute
 import com.example.newsapp.presentation.features.details.detailsScreen
@@ -69,7 +68,7 @@ fun App(connectivityObserver: ConnectivityObserverImpl) {
     }
     
     val connectivityState by connectivityObserver.observe().collectAsState(
-        initial = ConnectivityObserver.Status.Unavailable
+        initial = ConnectivityObserver.Status.Available
     )
 
     navController.addOnDestinationChangedListener{ cont, dest, args ->
@@ -81,7 +80,7 @@ fun App(connectivityObserver: ConnectivityObserverImpl) {
             CenterAlignedTopAppBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(TOP_BAR_HEIGHT.dp),
+                    .height(Constants.TOP_BAR_HEIGHT.dp),
                 title = {
                     Column(
                         Modifier
@@ -133,17 +132,14 @@ fun App(connectivityObserver: ConnectivityObserverImpl) {
 
                 ConnectivityIndicator(connectivityState = connectivityState)
 
-                NavHost(
-                    navController = navController,
-                    startDestination = newsRoute
-                ) {
-                    newsScreen(navController::navigateToDetails)
-                    detailsScreen()
-                }
+                if (isTablet())
+                    TabletScreen()
+                else
+                    NavHost(navController = navController, startDestination = newsRoute){
+                        newsScreen(navController::navigateToDetails)
+                        detailsScreen()
+                    }
             }
-
-
-
         }
     }
 }
@@ -204,14 +200,6 @@ fun ConnectivityIndicator(connectivityState: ConnectivityObserver.Status) {
                 modifier = Modifier.background(MaterialTheme.colorScheme.background).fillMaxWidth(),
                 text = if (networkAvailable) "Connected." else "Connection lost. Reconnecting..."
             )
-
-            if (isTablet())
-                TabletScreen()
-            else
-                NavHost(navController = navController, startDestination = newsRoute){
-                    newsScreen(navController::navigateToDetails)
-                    detailsScreen()
-                }
         }
     }
 
