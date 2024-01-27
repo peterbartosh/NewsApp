@@ -2,13 +2,15 @@ package com.example.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.common.Constants.CACHE_MAX_SIZE
-import com.example.common.Constants.NEWS_API_BASE_URL
+import com.example.data.components.Constants.CACHE_MAX_SIZE
 import com.example.data.local.LocalDao
 import com.example.data.local.LocalDatabase
 import com.example.data.remote.NewsApi
 import com.example.data.remote.interceptors.AuthorizationInterceptor
-import com.example.data.repository.LocalRepository
+import com.example.data.repository.DataRepository
+import com.example.data.repository.DataRepositoryImpl
+import com.example.data.source.LocalSource
+import com.example.data.source.RemoteSource
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -41,7 +43,7 @@ object AppModule {
     @Provides @Singleton
     fun provideRetrofit(client: OkHttpClient) =
         Retrofit.Builder()
-            .baseUrl(NEWS_API_BASE_URL)
+            .baseUrl(BuildConfig.NEWS_API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
@@ -49,6 +51,9 @@ object AppModule {
     @Provides @Singleton
     fun provideApi(retrofit: Retrofit) = retrofit.create(NewsApi::class.java)
 
+    @Provides @Singleton
+    fun provideRemoteSource(newsApi: NewsApi, gson: Gson) =
+        RemoteSource(newsApi, gson)
 
     // local
     @Provides @Singleton
@@ -62,11 +67,16 @@ object AppModule {
     fun provideLocalDao(localDatabase: LocalDatabase) = localDatabase.provideDao()
 
     @Provides @Singleton
-    fun provideLocalRepository(localDao: LocalDao) =
-        LocalRepository(localDao)
+    fun provideLocalSource(localDao: LocalDao) =
+        LocalSource(localDao)
 
     // common
+
+    @Provides @Singleton
+    fun provideDataRepository(dataRepositoryImpl: DataRepositoryImpl): DataRepository = dataRepositoryImpl
+
     @Provides @Singleton
     fun provideGson() = Gson()
+
 
 }

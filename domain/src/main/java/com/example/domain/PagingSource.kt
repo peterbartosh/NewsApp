@@ -2,17 +2,15 @@ package com.example.domain
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.common.CustomException
 import com.example.common.ErrorType
-import com.example.common.LightWeightException
 import com.example.common.QueryTopic
-import com.example.data.repository.LocalRepository
-import com.example.data.repository.NetworkRepository
+import com.example.data.repository.DataRepository
 
 
 class NewsPagingSource(
     private val initQueryTopic: QueryTopic,
-    private val networkRepository: NetworkRepository,
-    private val localRepository: LocalRepository
+    private val dataRepository: DataRepository
 ) : PagingSource<NewsPagingSource.SearchKey, Article>() {
 
     data class SearchKey(
@@ -33,39 +31,24 @@ class NewsPagingSource(
     override suspend fun load(params: LoadParams<SearchKey>): LoadResult<SearchKey, Article> {
         val searchKey = params.key ?: SearchKey(1, initQueryTopic)
 
-        val result = networkRepository.getLatestNews(
+        val result = dataRepository.getArticles(
             page = searchKey.page,
-            query = searchKey.query.name.lowercase()
+            queryTopic = searchKey.query,
+            transform = { this.mapNotNull { it.toArticleEntity(searchKey.query) } }
         )
 
-        return if (result.isSuccess) {
+        val articles = result.getOrNull()?.mapNotNull { it.toArticle() }
 
-            val articles =
-                result.getOrNull()?.articles?.mapNotNull { it.toNewsArticle() } ?: emptyList()
-
-            if (searchKey.page == 1) localRepository.clearAllByQuery(searchKey.query)
-            localRepository.insertAll(articles.map { it.toArticleEntity(searchKey.query) })
-
+        return if (result.isSuccess && !articles.isNullOrEmpty()) {
             LoadResult.Page(
                 data = articles,
                 prevKey = if (searchKey.page == 1) null else searchKey.prev(),
                 nextKey = if (articles.isEmpty()) null else searchKey.next()
             )
-        } else {
-            val articles = localRepository
-                .getArticles(queryTopic = searchKey.query, page = searchKey.page)
-                .map { it.toNewsArticle() }
-
-            if (articles.isNotEmpty())
-                LoadResult.Page(
-                    data = articles,
-                    prevKey = if (searchKey.page == 1) null else searchKey.prev(),
-                    nextKey = if (articles.isEmpty()) null else searchKey.next()
-                )
-            else
-                LoadResult.Error(
-                    result.exceptionOrNull() ?: LightWeightException(ErrorType.EmptyResult, -1)
-                )
         }
+        else
+            LoadResult.Error(
+                result.exceptionOrNull() ?: CustomException(ErrorType.EmptyResult, -1)
+            )
     }
 }

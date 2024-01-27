@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.common.CustomException
 import com.example.common.ErrorType
-import com.example.common.LightWeightException
 import com.example.newsapp.presentation.components.ErrorOccurred
 import com.example.newsapp.presentation.components.errorCallback
 import com.example.newsapp.presentation.features.news.components.LazyNews
@@ -57,7 +57,7 @@ fun NewsScreen(
             }
 
             LaunchedEffect(key1 = true){
-                val e = (articles.loadState.refresh as LoadState.Error).error as LightWeightException
+                val e = (articles.loadState.refresh as LoadState.Error).error as CustomException
                 errorType = e.errorType
                 context.errorCallback(e.code)
             }
@@ -67,6 +67,11 @@ fun NewsScreen(
             }
         }
         else
-            LazyNews(articles = articles, onNewsCardClick = onNewsCardClick)
+            LazyNews(
+                articles = articles,
+                onNewsCardClick = { article, index ->
+                    onNewsCardClick(article.url, index)
+                }
+            )
     }
 }

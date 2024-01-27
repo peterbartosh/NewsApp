@@ -1,12 +1,12 @@
 package com.example.data.model.dto
 
 data class RemoteArticle(
-    val author: String?,
+    override val author: String?,
     val content: String?,
-    val description: String?,
-    val publishedAt: String?,
+    override val description: String?,
+    override val publishedAt: String?,
     val source: Source?,
-    val title: String?,
-    val url: String?,
-    val urlToImage: String?
-)
+    override val title: String?,
+    override val url: String?,
+    override val urlToImage: String?
+): DataArticle

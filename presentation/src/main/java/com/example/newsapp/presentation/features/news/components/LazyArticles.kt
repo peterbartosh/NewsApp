@@ -25,7 +25,7 @@ import com.example.domain.Article
 import com.example.newsapp.presentation.components.Loading
 
 @Composable
-fun LazyNews(selectedArticleIndex: Int = -1, articles: LazyPagingItems<Article>, onNewsCardClick: (String, Int) -> Unit) {
+fun LazyNews(selectedArticleIndex: Int = -1, articles: LazyPagingItems<Article>, onNewsCardClick: (Article, Int) -> Unit) {
 
     val scrollState = rememberLazyListState()
 
@@ -56,7 +56,7 @@ fun LazyNews(selectedArticleIndex: Int = -1, articles: LazyPagingItems<Article>,
                         isSelected = index == selectedArticleIndex,
                         isLoadingData = articles.loadState.refresh is LoadState.Loading,
                         onClick = {
-                            onNewsCardClick(article.url, index)
+                            onNewsCardClick(article, index)
                         }
                     )
 

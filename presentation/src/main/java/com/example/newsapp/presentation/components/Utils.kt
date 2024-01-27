@@ -7,10 +7,16 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.core.content.ContextCompat.startActivity
+import com.example.common.ErrorType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.newsapp.R as Res
 
+sealed class UiState<T>(open val data: T? = null, open val errorType: ErrorType? = null){
+    class Success<T>(override val data: T? = null): UiState<T>(data = data)
+    class Failure<T>(override val errorType: ErrorType): UiState<T>(errorType = errorType)
+    class Loading<T> : UiState<T>()
+}
 
 fun Context.showToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
@@ -40,7 +46,7 @@ fun Context.explainErrorResponse(code: Int) =
 
 @Composable
 fun isTablet(): Boolean {
-    return LocalConfiguration.current.screenWidthDp >= 600
+    return LocalConfiguration.current.screenWidthDp >= 700
 }
 
 suspend fun Context.errorCallback(code: Int) {

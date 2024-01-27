@@ -22,29 +22,31 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "NEWS_API_KEY", "\"$API_KEY\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "NEWS_API_KEY", "\"$API_KEY\""
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 }
 
 dependencies {
 
-    implementation(project(":common"))
-    //implementation(project(":di"))
-
-    def ok_http_version = "5.0.0-alpha.2"
-    def retrofit_version = "2.9.0"
-    def room_version = "2.6.0"
-    def hilt_version = "2.48"
+    implementation(project(':common'))
 
     // Gson
     implementation 'com.google.code.gson:gson:2.9.1'

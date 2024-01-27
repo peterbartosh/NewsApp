@@ -23,9 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.common.CustomException
 import com.example.common.ErrorType
-import com.example.common.LightWeightException
+import com.example.domain.Article
 import com.example.newsapp.presentation.components.ErrorOccurred
+import com.example.newsapp.presentation.components.UiState
 import com.example.newsapp.presentation.components.errorCallback
 import com.example.newsapp.presentation.features.details.DetailsScreen
 import com.example.newsapp.presentation.features.news.NewsViewModel
@@ -35,7 +37,7 @@ import com.example.newsapp.presentation.features.tablet.components.NoSelectedArt
 
 
 const val leftFraction = 0.3f
-const val rightFraction = 0.6f
+const val rightFraction = 0.7f
 
 @Composable
 fun TabletScreen(
@@ -50,7 +52,7 @@ fun TabletScreen(
         mutableStateOf(-1)
     }
 
-    var selectedArticleUrl by rememberSaveable<MutableState<String?>> {
+    var selectedArticle by rememberSaveable<MutableState<Article?>> {
         mutableStateOf(null)
     }
 
@@ -81,7 +83,7 @@ fun TabletScreen(
 
 
                     LaunchedEffect(key1 = true){
-                        val e = (articles.loadState.refresh as LoadState.Error).error as LightWeightException
+                        val e = (articles.loadState.refresh as LoadState.Error).error as CustomException
                         errorType = e.errorType
                         context.errorCallback(e.code)
                     }
@@ -96,13 +98,13 @@ fun TabletScreen(
                         selectedArticleIndex = selectedArticleIndex,
                         articles = articles
                     ){ articleUrl, index ->
-                        selectedArticleUrl = articleUrl
+                        selectedArticle = articleUrl
                         selectedArticleIndex = index
                     }
             }
 
-            if (selectedArticleUrl != null)
-                DetailsScreen(articleUrl = selectedArticleUrl)
+            if (selectedArticle != null)
+                DetailsScreen(uiState = UiState.Success(selectedArticle))
             else
                 NoSelectedArticles()
         }

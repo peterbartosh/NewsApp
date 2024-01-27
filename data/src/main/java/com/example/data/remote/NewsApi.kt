@@ -1,8 +1,8 @@
 package com.example.data.remote
 
 
-import com.example.common.Constants.CACHING_DURATION_IN_SECONDS
-import com.example.common.Constants.NEWS_ARTICLES_PER_PAGE
+import com.example.data.components.Constants.CACHING_DURATION_IN_SECONDS
+import com.example.data.components.Constants.NEWS_ARTICLES_PER_PAGE
 import com.example.data.model.dto.SuccessfulResponse
 import retrofit2.Response
 import retrofit2.http.GET

@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.common.Constants.TOP_BAR_HEIGHT
+import com.example.newsapp.presentation.components.Constants.TOP_BAR_HEIGHT
 import com.example.newsapp.presentation.components.isTablet
 import com.example.newsapp.presentation.connectivity.ConnectivityObserver
 import com.example.newsapp.presentation.connectivity.ConnectivityObserverImpl

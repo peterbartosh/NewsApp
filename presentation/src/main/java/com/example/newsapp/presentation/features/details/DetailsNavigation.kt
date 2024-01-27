@@ -1,11 +1,11 @@
 package com.example.newsapp.presentation.features.details
 
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.example.common.Constants.DETAILS_SAVED_STATE_HANDLE_KEY
+import com.example.newsapp.presentation.components.Constants.DETAILS_SAVED_STATE_HANDLE_KEY
 
 const val detailsRoute = "details"
 
@@ -18,10 +18,11 @@ fun NavGraphBuilder.detailsScreen(){
 
     composable(route = detailsRoute){
 
-        val detailsViewModel = hiltViewModel<DetailsViewModel>()
+        val articleUrl = it.savedStateHandle.get<String>(DETAILS_SAVED_STATE_HANDLE_KEY)!!
+        val detailsViewModel = detailViewModel(articleUrl)
 
-        val articleUrl = it.savedStateHandle.get<String>(DETAILS_SAVED_STATE_HANDLE_KEY)
+        val uiState = detailsViewModel.uiState.collectAsState()
 
-        DetailsScreen(detailsViewModel = detailsViewModel, articleUrl = articleUrl)
+        DetailsScreen(uiState = uiState.value)
     }
 }
