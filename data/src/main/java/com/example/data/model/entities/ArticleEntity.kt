@@ -2,7 +2,7 @@ package com.example.data.model.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.data.model.dto.DataArticle
+import com.example.data.model.common.DataArticle
 
 @Entity(tableName = "cached_articles")
 data class ArticleEntity(

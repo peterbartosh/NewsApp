@@ -33,8 +33,7 @@ class NewsPagingSource(
 
         val result = dataRepository.getArticles(
             page = searchKey.page,
-            queryTopic = searchKey.query,
-            transform = { this.mapNotNull { it.toArticleEntity(searchKey.query) } }
+            queryTopic = searchKey.query
         )
 
         val articles = result.getOrNull()?.mapNotNull { it.toArticle() }

@@ -28,6 +28,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.domain.Article
 import com.example.newsapp.R
 import com.example.newsapp.presentation.components.browse
 import com.example.newsapp.presentation.components.formatDateString
@@ -35,7 +36,7 @@ import com.example.newsapp.presentation.components.isTablet
 
 
 @Composable
-fun SucceedScreenData(article: com.example.domain.Article) {
+fun SucceedScreenData(article: Article) {
 
     val context = LocalContext.current
 

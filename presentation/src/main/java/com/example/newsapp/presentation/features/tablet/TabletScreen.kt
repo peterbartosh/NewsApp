@@ -56,12 +56,17 @@ fun TabletScreen(
         mutableStateOf(null)
     }
 
+    var selectedIndex by rememberSaveable {
+        mutableStateOf(0)
+    }
+
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        LazyQueries(modifier = Modifier.padding(vertical = 7.dp)) { topic ->
+        LazyQueries(modifier = Modifier.padding(vertical = 7.dp), selectedIndex = selectedIndex) { index, topic ->
+            selectedIndex = index
             newsViewModel.fetchData(topic)
             articles.refresh()
             selectedArticleIndex = -1

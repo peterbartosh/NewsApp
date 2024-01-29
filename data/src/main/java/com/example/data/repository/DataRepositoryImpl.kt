@@ -3,9 +3,8 @@ package com.example.data.repository
 import com.example.common.CustomException
 import com.example.common.ErrorType
 import com.example.common.QueryTopic
-import com.example.data.model.dto.DataArticle
-import com.example.data.model.dto.RemoteArticle
-import com.example.data.model.entities.ArticleEntity
+import com.example.data.components.toArticleEntity
+import com.example.data.model.common.DataArticle
 import com.example.data.source.LocalSource
 import com.example.data.source.RemoteSource
 import javax.inject.Inject
@@ -17,8 +16,7 @@ class DataRepositoryImpl @Inject constructor(
 
     override suspend fun getArticles(
         page: Int,
-        queryTopic: QueryTopic,
-        transform: List<RemoteArticle>.() -> List<ArticleEntity>
+        queryTopic: QueryTopic
     ): Result<List<DataArticle>> {
 
         val apiResult = remoteSource.getLatestNews(
@@ -30,7 +28,7 @@ class DataRepositoryImpl @Inject constructor(
             val remoteArticles = apiResult.getOrNull()?.articles ?: emptyList()
             if (page == 1 && remoteArticles.isNotEmpty())
                 localSource.clearAllByQuery(queryTopic)
-            localSource.insertAll(remoteArticles.transform())
+            localSource.insertAll(remoteArticles.mapNotNull { it.toArticleEntity(queryTopic) })
             remoteArticles
         } else {
             localSource.getArticles(queryTopic = queryTopic, page = page)

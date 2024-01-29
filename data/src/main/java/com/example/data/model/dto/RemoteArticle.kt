@@ -1,5 +1,7 @@
 package com.example.data.model.dto
 
+import com.example.data.model.common.DataArticle
+
 data class RemoteArticle(
     override val author: String?,
     val content: String?,

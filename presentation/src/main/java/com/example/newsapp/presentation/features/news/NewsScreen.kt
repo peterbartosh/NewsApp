@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +38,10 @@ fun NewsScreen(
 
     val articles = newsViewModel.dataFLow.collectAsLazyPagingItems()
 
+    var selectedIndex by rememberSaveable {
+        mutableStateOf(0)
+    }
+
     Column(
         Modifier
             .fillMaxHeight()
@@ -44,7 +49,8 @@ fun NewsScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        LazyQueries { topic ->
+        LazyQueries(selectedIndex) { index, topic ->
+            selectedIndex = index
             newsViewModel.fetchData(topic)
             articles.refresh()
         }

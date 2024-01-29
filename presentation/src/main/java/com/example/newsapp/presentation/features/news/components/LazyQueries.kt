@@ -5,32 +5,21 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.common.QueryTopic
 
 @Composable
-fun LazyQueries(modifier: Modifier = Modifier, onQueryButtonClick: (QueryTopic) -> Unit) {
+fun LazyQueries(selectedIndex: Int, modifier: Modifier = Modifier, onQueryButtonClick: (Int, QueryTopic) -> Unit) {
 
     val scrollState = rememberLazyListState()
-
-    var selectedIndex by rememberSaveable {
-        mutableStateOf(0)
-    }
 
     LazyRow(modifier = modifier.padding(horizontal = 5.dp), state = scrollState) {
          itemsIndexed(QueryTopic.entries, key = { _, it -> it.name }){ index, queryTopic ->
              QueryButton(
                  isSelected = index == selectedIndex,
                  query = queryTopic.name,
-                 onClick = {
-                     selectedIndex = index
-                     onQueryButtonClick(queryTopic)
-                }
+                 onClick = { onQueryButtonClick(index, queryTopic) }
              )
          }
     }
