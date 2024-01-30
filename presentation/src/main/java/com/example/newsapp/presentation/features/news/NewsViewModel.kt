@@ -33,7 +33,7 @@ class NewsViewModel @Inject constructor(
 
         lastQuery = queryTopic
 
-        dataFLow = getLatestNewsFlowUseCase.invoke(queryTopic)
+        dataFLow = getLatestNewsFlowUseCase(queryTopic)
             .distinctUntilChanged()
             .flowOn(Dispatchers.IO)
             .cachedIn(viewModelScope)

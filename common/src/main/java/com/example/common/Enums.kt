@@ -8,4 +8,4 @@ enum class QueryTopic {
     Politics, Business, Technology, Science, IT, Health, Fashion, Art;
 }
 
-class CustomException(val errorType: ErrorType, val code: Int): Throwable()
+data class CustomException(val errorType: ErrorType, val code: Int): Throwable()

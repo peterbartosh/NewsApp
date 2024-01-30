@@ -29,7 +29,7 @@ class DataRepositoryImpl @Inject constructor(
             if (page == 1 && remoteArticles.isNotEmpty())
                 localSource.clearAllByQuery(queryTopic)
             localSource.insertAll(remoteArticles.mapNotNull { it.toArticleEntity(queryTopic) })
-            remoteArticles
+            remoteArticles.distinct()
         } else {
             localSource.getArticles(queryTopic = queryTopic, page = page)
         }
@@ -40,8 +40,12 @@ class DataRepositoryImpl @Inject constructor(
             Result.failure(apiResult.exceptionOrNull() ?: CustomException(ErrorType.EmptyResult, -1))
     }
 
-    override suspend fun getArticleByUrl(articleUrl: String): DataArticle? {
-        return localSource.getArticle(articleUrl)
+    override suspend fun getArticleByUrl(articleUrl: String): Result<DataArticle> {
+        val article = localSource.getArticle(articleUrl)
+        return if (article == null)
+            Result.failure(CustomException(ErrorType.EmptyResult, -1))
+        else
+            Result.success(article)
     }
 
 }

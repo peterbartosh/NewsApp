@@ -1,27 +1,8 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.newsapp.presentation-mergeDebugResources-76:/values-v16/values-v16.xml",
+            "outputFile": "com.example.newsapp.presentation-mergeDebugResources-71:/values-v16/values-v16.xml",
             "map": [
-                {
-                    "source": "C:\\Users\\EB\\.gradle\\caches\\transforms-3\\cc0a4c4df426eb11e9948c3be1705f90\\transformed\\appcompat-1.6.1\\res\\values-v16\\values-v16.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endLines": "5",
-                        "endColumns": "12",
-                        "endOffsets": "223"
-                    },
-                    "to": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "121",
-                        "endLines": "6",
-                        "endColumns": "12",
-                        "endOffsets": "289"
-                    }
-                },
                 {
                     "source": "C:\\Users\\EB\\.gradle\\caches\\transforms-3\\f1bc42a762680c0781cd7aebec8241a4\\transformed\\core-1.9.0\\res\\values-v16\\values-v16.xml",
                     "from": {

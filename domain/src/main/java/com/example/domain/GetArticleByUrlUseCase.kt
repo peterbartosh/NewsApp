@@ -8,6 +8,6 @@ class GetArticleByUrlUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(articleUrl: String) =
-        dataRepository.getArticleByUrl(articleUrl)?.toArticle()
+        dataRepository.getArticleByUrl(articleUrl).map { it.toArticle() }
 
 }

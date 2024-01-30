@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.newsapp.NewsViewModelTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-01-30T22:23:31" hostname="EB-HP" time="3.721">
+  <properties/>
+  <testcase name="test view model state flow with empty use case output" classname="com.example.newsapp.NewsViewModelTest" time="3.692"/>
+  <testcase name="test view model state flow with correct use case output" classname="com.example.newsapp.NewsViewModelTest" time="0.028"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

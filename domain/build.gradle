@@ -11,13 +11,12 @@ plugins {
 
 android {
     namespace 'com.example.domain'
-    compileSdk 33
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk project.minSdkVersion
+        targetSdk project.targetSdkVersion
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -38,7 +37,7 @@ android {
 
 dependencies {
 
-    implementation implementation(project(':common',))
+    implementation(project(':common'))
     implementation(project(":data"))
     implementation(project(":di"))
 
@@ -51,14 +50,9 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
     implementation "androidx.paging:paging-compose:1.0.0-alpha18"
 
-    // MockK tests
-    androidTestImplementation "io.mockk:mockk-android:$mockk_version"
-    testImplementation "io.mockk:mockk:$mockk_version"
+    // Testing
+    testImplementation "io.mockk:mockk-android:$mockk_version"
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 
-    //implementation 'androidx.core:core-ktx:1.8.0'
-    //implementation 'androidx.appcompat:appcompat:1.6.1'
-    //implementation 'com.google.android.material:material:1.10.0'
-//    testImplementation 'junit:junit:4.13.2'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

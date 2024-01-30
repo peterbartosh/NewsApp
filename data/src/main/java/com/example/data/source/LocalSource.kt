@@ -24,10 +24,6 @@ class LocalSource @Inject constructor(private val localDao: LocalDao) {
         }
     }
 
-    suspend fun clearAll() = withContext(Dispatchers.IO){
-        localDao.clearAll()
-    }
-
     suspend fun clearAllByQuery(queryTopic: QueryTopic) = withContext(Dispatchers.IO){
         localDao.clearAllByQuery(queryTopic.ordinal)
     }

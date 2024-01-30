@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.common.CustomException
 import com.example.common.ErrorType
 import com.example.domain.Article
 import com.example.domain.GetArticleByUrlUseCase
@@ -36,11 +37,14 @@ class DetailsViewModel @AssistedInject constructor(
         if (articleUrl == null)
             _uiState.value = UiState.Failure(ErrorType.EmptyResult)
         else {
-            val article = getArticleByUrlUseCase.invoke(articleUrl)
-            _uiState.value = if (article == null)
+            val result = getArticleByUrlUseCase(articleUrl)
+            val data = result.getOrNull()
+            _uiState.value = if (result.isFailure)
+                UiState.Failure((result.exceptionOrNull() as CustomException?)?.errorType ?: ErrorType.EmptyResult)
+            else if (data == null)
                 UiState.Failure(ErrorType.EmptyResult)
             else
-                UiState.Success(article)
+                UiState.Success(data)
         }
     }
 

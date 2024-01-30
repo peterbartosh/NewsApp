@@ -8,5 +8,5 @@ interface DataRepository {
         page: Int,
         queryTopic: QueryTopic
     ): Result<List<DataArticle>>
-    suspend fun getArticleByUrl(articleUrl: String): DataArticle?
+    suspend fun getArticleByUrl(articleUrl: String): Result<DataArticle>
 }

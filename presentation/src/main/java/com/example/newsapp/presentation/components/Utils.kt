@@ -46,7 +46,8 @@ fun Context.explainErrorResponse(code: Int) =
 
 @Composable
 fun isTablet(): Boolean {
-    return LocalConfiguration.current.screenWidthDp >= 700
+    return LocalConfiguration.current.screenWidthDp >= 700 &&
+            LocalConfiguration.current.screenHeightDp >= 700
 }
 
 suspend fun Context.errorCallback(code: Int) {
